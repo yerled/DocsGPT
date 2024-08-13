@@ -99,6 +99,7 @@ export function handleFetchAnswerSteaming(
   promptId: string | null,
   chunks: string,
   token_limit: number,
+  model: string,
   onEvent: (event: MessageEvent) => void,
 ): Promise<Answer> {
   const docPath = getDocPath(selectedDocs);
@@ -116,6 +117,7 @@ export function handleFetchAnswerSteaming(
           prompt_id: promptId,
           chunks: chunks,
           token_limit: token_limit,
+          model: model,
         },
         signal,
       )
@@ -174,6 +176,7 @@ export function handleSearch(
   history: Array<any> = [],
   chunks: string,
   token_limit: number,
+  model: string,
 ) {
   const docPath = getDocPath(selectedDocs);
   return conversationService
@@ -184,6 +187,7 @@ export function handleSearch(
       history,
       chunks: chunks,
       token_limit: token_limit,
+      model: model,
     })
     .then((response) => response.json())
     .then((data) => {

@@ -13,6 +13,7 @@ interface Preference {
   prompt: { name: string; id: string; type: string };
   chunks: string;
   token_limit: number;
+  model: string;
   selectedDocs: Doc | null;
   sourceDocs: Doc[] | null;
   conversations: { name: string; id: string }[] | null;
@@ -24,6 +25,7 @@ const initialState: Preference = {
   prompt: { name: 'default', id: 'default', type: 'public' },
   chunks: '2',
   token_limit: 2000,
+  model: 'default',
   selectedDocs: {
     name: 'default',
     language: 'default',
@@ -65,6 +67,9 @@ export const prefSlice = createSlice({
     setTokenLimit: (state, action) => {
       state.token_limit = action.payload;
     },
+    setModel: (state, action) => {
+      state.model = action.payload;
+    },
     setModalStateDeleteConv: (state, action: PayloadAction<ActiveState>) => {
       state.modalState = action.payload;
     },
@@ -79,6 +84,7 @@ export const {
   setPrompt,
   setChunks,
   setTokenLimit,
+  setModel,
   setModalStateDeleteConv,
 } = prefSlice.actions;
 export default prefSlice.reducer;
@@ -133,6 +139,16 @@ prefListenerMiddleware.startListening({
   },
 });
 
+prefListenerMiddleware.startListening({
+  matcher: isAnyOf(setModel),
+  effect: (action, listenerApi) => {
+    localStorage.setItem(
+      'DocsGPTModel',
+      (listenerApi.getState() as RootState).preference.model,
+    );
+  },
+});
+
 export const selectApiKey = (state: RootState) => state.preference.apiKey;
 export const selectApiKeyStatus = (state: RootState) =>
   !!state.preference.apiKey;
@@ -152,3 +168,4 @@ export const selectPrompt = (state: RootState) => state.preference.prompt;
 export const selectChunks = (state: RootState) => state.preference.chunks;
 export const selectTokenLimit = (state: RootState) =>
   state.preference.token_limit;
+export const selectModel = (state: RootState) => state.preference.model;

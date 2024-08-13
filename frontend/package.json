@@ -12,12 +12,6 @@
     "format": "prettier ./src --write",
     "prepare": "cd .. && husky install frontend/.husky"
   },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint-fix",
-      "npm run format"
-    ]
-  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.2",
     "@vercel/analytics": "^0.1.10",

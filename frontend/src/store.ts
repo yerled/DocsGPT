@@ -10,6 +10,7 @@ const key = localStorage.getItem('DocsGPTApiKey');
 const prompt = localStorage.getItem('DocsGPTPrompt');
 const chunks = localStorage.getItem('DocsGPTChunks');
 const token_limit = localStorage.getItem('DocsGPTTokenLimit');
+const model = localStorage.getItem('DocsGPTModel');
 const doc = localStorage.getItem('DocsGPTRecentDocs');
 
 const store = configureStore({
@@ -22,6 +23,7 @@ const store = configureStore({
           : { name: 'default', id: 'default', type: 'private' },
       chunks: JSON.parse(chunks ?? '2').toString(),
       token_limit: token_limit ? parseInt(token_limit) : 2000,
+      model: model ?? 'default',
       selectedDocs: doc !== null ? JSON.parse(doc) : null,
       conversations: null,
       sourceDocs: [
